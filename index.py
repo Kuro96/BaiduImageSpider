@@ -22,7 +22,8 @@ class Crawler:
     __amount = 0
     __start_amount = 0
     __counter = 0
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0'}
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0'}
 
     # 获取图片url内容等
     # t 下载图片时间间隔
@@ -31,16 +32,16 @@ class Crawler:
 
     # 保存图片
     def __save_image(self, rsp_data, word):
-
-        if not os.path.exists("./" + word):
-            os.mkdir("./" + word)
+        if not os.path.exists("./images/" + word):
+            os.mkdirs("./images/" + word)
         # 判断名字是否重复，获取图片长度
-        self.__counter = len(os.listdir('./' + word)) + 1
+        self.__counter = len(os.listdir('./images/' + word)) + 1
         for image_info in rsp_data['imgs']:
             try:
                 time.sleep(self.time_sleep)
                 fix = self.__get_suffix(image_info['objURL'])
-                urllib.request.urlretrieve(image_info['objURL'], './' + word + '/' + str(self.__counter) + str(fix))
+                urllib.request.urlretrieve(
+                    image_info['objURL'], './images/' + word + '/' + str(self.__counter) + str(fix))
             except urllib.error.HTTPError as urllib_err:
                 print(urllib_err)
                 continue
@@ -120,5 +121,5 @@ class Crawler:
 if __name__ == '__main__':
     crawler = Crawler(0.05)
     # crawler.start('美女', 1, 2)
-    crawler.start('二次元 美女', 3, 3)
+    crawler.start('东方project', 10, 3)
     # crawler.start('帅哥', 5)
